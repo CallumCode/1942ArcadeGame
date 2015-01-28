@@ -13,7 +13,8 @@ public class Player : Sprite {
     float bulletForce = 100;
 
     AudioSource soundShoot;
-    
+
+    float boundarySpeed = 10;    
 	// Use this for initialization
 	void Start () 
     {
@@ -60,9 +61,13 @@ public class Player : Sprite {
 
     void OnBecameInvisible()
     {
-        Vector3 dir = (mainCamera.transform.position - transform.position).normalized;
-        dir.z = 0;
-        rigidbody2D.velocity = dir * 10;
+        if (mainCamera)
+        {
+            Vector3 dir = (mainCamera.transform.position - transform.position).normalized;
+            dir.z = 0;
+            rigidbody2D.velocity = dir * boundarySpeed;
+
+        }
     }
 
 

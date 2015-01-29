@@ -4,9 +4,18 @@ using System.Collections;
 public class Sprite : MonoBehaviour
 {
     float health = 100;
+    public GameObject explosionPrefab;
 
+    public GameObject bulletPrefab;
+    public float bulletForce = 10;
+    public float fireaRate = 1;
 
-    Animator animator;
+    protected float fireTimer = 0;
+
+  //  Animator animator;
+
+    public Transform bulletSpawn;
+
 
 	// Use this for initialization
 	void Start () 
@@ -16,7 +25,7 @@ public class Sprite : MonoBehaviour
 	
     public virtual void Init()
     {     
-        animator = GetComponent<Animator>();
+   //     animator = GetComponent<Animator>();
     }
 
 
@@ -31,7 +40,7 @@ public class Sprite : MonoBehaviour
         health -= amount;
         health = Mathf.Clamp(health, 0, 100);
 
-        if (health < 0)
+        if (health <= 0)
         {
             Death();
         }
@@ -39,8 +48,10 @@ public class Sprite : MonoBehaviour
 
    void Death()
    {
-       Destroy(gameObject);   
+       GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation) as GameObject;
+       explosion.rigidbody2D.velocity = rigidbody2D.velocity;
+        Destroy(gameObject);   
    }
 
-    
+
 }

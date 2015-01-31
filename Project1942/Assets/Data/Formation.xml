@@ -1,0 +1,23 @@
+<Level>
+	<Wave>
+		<Time>1</Time>
+		<Ship>10</Ship>
+		<Ship>50</Ship>
+		<Ship>75</Ship>
+	</Wave>
+  <Wave>
+    <Time>2</Time>
+    <Ship>10</Ship>
+    <Ship>50</Ship> 	
+  </Wave>
+  <Wave>
+    <Time>6</Time>
+    <Ship>10</Ship>
+    <Ship>50</Ship>
+  </Wave>
+  <Wave>
+    <Time>8</Time>
+    <Ship>75</Ship>
+    <Ship>50</Ship>
+  </Wave>
+</Level>

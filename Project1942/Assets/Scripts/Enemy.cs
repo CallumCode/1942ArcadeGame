@@ -1,23 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : Sprite
+public class Enemy : ShootingSprite
 {
-   GameObject playerObject;
+   //GameObject playerObject;
     // Use this for initialization
 
-
+    public float moveForce = 100;
 
     void Start()
     {
         // first pass implimentation
-        playerObject = GameObject.FindGameObjectWithTag("Player");
+      //  playerObject = GameObject.FindGameObjectWithTag("Player");
+        transform.rigidbody2D.AddForce(-Vector3.up * moveForce );
+            
+    
     }
 
     // Update is called once per frame
     void Update()
     {
         Shooting();
+     //   Movement();
+
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -44,4 +49,14 @@ public class Enemy : Sprite
 
         }
     }
+    void Movement()
+    {
+         transform.rigidbody2D.AddForce(-  Vector3.up * moveForce * Time.time);
+    }
+
+    void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
+
 }

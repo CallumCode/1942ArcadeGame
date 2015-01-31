@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : Sprite
+public class Player : ShootingSprite
 {
 
     float forceForward = 50;
@@ -15,6 +15,10 @@ public class Player : Sprite
 
     float boundarySpeed = 10;
     float rotateFixSpeed = 5;
+
+    float maxFireRate = 10;
+    float minFireRate = 1;
+
     // Use this for initialization
     void Start()
     {
@@ -58,7 +62,7 @@ public class Player : Sprite
             rigidbody2D.AddForce(-Vector3.up * forceBackward * Time.deltaTime);
         }
 
-        transform.up = Vector3.RotateTowards(transform.up, Vector3.up, rotateFixSpeed, 0);
+        transform.up = Vector3.RotateTowards(transform.up, Vector3.up, rotateFixSpeed *Time.deltaTime, 0);
     }
 
     void OnBecameInvisible()
@@ -98,5 +102,19 @@ public class Player : Sprite
         }
     }
 
+
+    public void IncreaseHealth(float healthGained)
+    {
+        health += healthGained;
+        health = Mathf.Clamp(health, 0, 100);
+    
+    }
+
+      public void ChangeFireRate(float change)
+    {
+        fireaRate += change;
+
+        fireaRate = Mathf.Clamp(fireaRate, minFireRate, maxFireRate);
+    }
 
 }

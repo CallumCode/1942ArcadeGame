@@ -8,7 +8,7 @@ public class ScrollingBackground : MonoBehaviour
    RawImage mainBackground;
 
 
-   float scaleRate = 0.25f;
+   public float scaleRate = 0.25f;
 	// Use this for initialization
 	void Start () 
     {

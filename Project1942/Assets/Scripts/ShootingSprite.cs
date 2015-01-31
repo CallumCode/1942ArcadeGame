@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Sprite : MonoBehaviour
+public class ShootingSprite : MonoBehaviour
 {
-    float health = 100;
+    protected  float health = 100;
     public GameObject explosionPrefab;
+    public GameObject localCanvasPrefab;
+    public GameObject healthSliderPrefab;
+    
 
     public GameObject bulletPrefab;
     public float bulletForce = 10;

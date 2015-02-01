@@ -7,6 +7,7 @@ public class Enemy : ShootingSprite
 
     public float moveForce = 250;
     public float startVel = 5;
+    public float rotateFixSpeed = 1;
     void Start()
     {
         // first pass implimentation
@@ -25,7 +26,7 @@ public class Enemy : ShootingSprite
     void Update()
     {
         Shooting();
-     //   Movement();
+        Movement();
         UpdateCanvas();
     }
 
@@ -50,12 +51,17 @@ public class Enemy : ShootingSprite
             bullet.rigidbody2D.velocity = rigidbody2D.velocity;
 
             bullet.rigidbody2D.AddForce(- Vector3.up * bulletForce);
+          
+            soundShoot.pitch = Random.Range(.9f, 1.1f);
+            soundShoot.Play();
 
         }
     }
     void Movement()
     {
-         transform.rigidbody2D.AddForce(-  Vector3.up * moveForce * Time.time);
+        transform.up = Vector3.RotateTowards(transform.up, -Vector3.up, rotateFixSpeed * Time.deltaTime, 0);
+
+        transform.rigidbody2D.AddForce(transform.up * moveForce * Time.deltaTime);
     }
 
     void OnBecameInvisible()

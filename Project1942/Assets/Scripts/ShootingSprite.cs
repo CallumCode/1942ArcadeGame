@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 public class ShootingSprite : MonoBehaviour
 {
     protected  float health = 100;
@@ -23,6 +23,10 @@ public class ShootingSprite : MonoBehaviour
     public Transform bulletSpawn;
 
     GameObject healthObject;
+    protected Slider healthSlider;
+
+   protected AudioSource soundShoot;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -37,7 +41,12 @@ public class ShootingSprite : MonoBehaviour
 
          healthObject = Instantiate(healthSliderPrefab, transform.position + hpOffset, transform.rotation) as GameObject;
          healthObject.transform.SetParent(localCanvas.transform);
-        
+
+         healthSlider = healthObject.GetComponent<Slider>();
+
+         fireTimer = Random.Range(0, 1 / fireaRate);
+         soundShoot = GetComponent<AudioSource>();
+
     }
 
 
@@ -52,6 +61,11 @@ public class ShootingSprite : MonoBehaviour
         health -= amount;
         health = Mathf.Clamp(health, 0, 100);
 
+        if (healthSlider)
+        {
+            healthSlider.value = health;
+        }
+
         if (health <= 0)
         {
             Death();
@@ -63,8 +77,7 @@ public class ShootingSprite : MonoBehaviour
        GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation) as GameObject;
        explosion.rigidbody2D.velocity = rigidbody2D.velocity;
 
-       DestroySelf();
-   
+       DestroySelf();  
    }
 
 

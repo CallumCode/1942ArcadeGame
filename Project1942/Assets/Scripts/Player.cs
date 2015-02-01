@@ -11,7 +11,6 @@ public class Player : ShootingSprite
     public Camera mainCamera;
 
 
-    AudioSource soundShoot;
 
     float boundarySpeed = 10;
     float rotateFixSpeed = 5;
@@ -29,7 +28,6 @@ public class Player : ShootingSprite
     {
         base.Init();
 
-        soundShoot = GetComponent<AudioSource>();
     }
 
 
@@ -108,7 +106,11 @@ public class Player : ShootingSprite
     {
         health += healthGained;
         health = Mathf.Clamp(health, 0, 100);
-    
+
+        if (healthSlider)
+        {
+            healthSlider.value = health;
+        }    
     }
 
       public void ChangeFireRate(float change)

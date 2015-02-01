@@ -3,17 +3,21 @@ using System.Collections;
 
 public class Enemy : ShootingSprite
 {
-   //GameObject playerObject;
-    // Use this for initialization
+     // Use this for initialization
 
-    public float moveForce = 100;
-
+    public float moveForce = 250;
+    public float startVel = 5;
     void Start()
     {
         // first pass implimentation
-      //  playerObject = GameObject.FindGameObjectWithTag("Player");
-        transform.rigidbody2D.AddForce(-Vector3.up * moveForce );
-            
+ 
+        Init();
+    }
+
+    public override void Init()
+    {
+        base.Init();
+        transform.rigidbody2D.velocity = - Vector3.up * startVel;
     
     }
 
@@ -22,7 +26,7 @@ public class Enemy : ShootingSprite
     {
         Shooting();
      //   Movement();
-
+        UpdateCanvas();
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -56,7 +60,7 @@ public class Enemy : ShootingSprite
 
     void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        DestroySelf();
     }
 
 }

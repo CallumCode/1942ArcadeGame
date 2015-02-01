@@ -4,9 +4,9 @@ using System.Collections;
 public class Player : ShootingSprite
 {
 
-    float forceForward = 50;
-    float forceBackward = 100;
-    float forceSideways = 500;
+    public float forceForward = 50;
+    public float forceBackward = 100;
+    public float forceSideways = 500;
 
     public Camera mainCamera;
 
@@ -38,6 +38,7 @@ public class Player : ShootingSprite
     {
         Movement();
         Shooting();
+        UpdateCanvas();
     }
 
     void Movement()

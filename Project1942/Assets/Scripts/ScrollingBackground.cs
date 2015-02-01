@@ -20,7 +20,9 @@ public class ScrollingBackground : MonoBehaviour
     {
 
         Vector2 pos = mainBackground.uvRect.position;
-        mainBackground.uvRect = new Rect(0, pos.y + Time.deltaTime * scaleRate ,1,1);
+        float newy =  pos.y + Time.deltaTime * scaleRate ;
+        newy = Mathf.Repeat(newy , 1);
+        mainBackground.uvRect = new Rect(pos.x, newy, 1, 1);
 
 	}
 }

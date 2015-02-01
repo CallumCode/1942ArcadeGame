@@ -7,10 +7,13 @@ public class ShootingSprite : MonoBehaviour
     public GameObject explosionPrefab;
     public GameObject localCanvasPrefab;
     public GameObject healthSliderPrefab;
-    
+
+    public Vector3 hpOffset = Vector3.zero;
+
+    GameObject localCanvas;
 
     public GameObject bulletPrefab;
-    public float bulletForce = 10;
+    public float bulletForce = 50;
     public float fireaRate = 1;
 
     protected float fireTimer = 0;
@@ -19,7 +22,7 @@ public class ShootingSprite : MonoBehaviour
 
     public Transform bulletSpawn;
 
-
+    GameObject healthObject;
 	// Use this for initialization
 	void Start () 
     {
@@ -29,6 +32,12 @@ public class ShootingSprite : MonoBehaviour
     public virtual void Init()
     {     
    //     animator = GetComponent<Animator>();
+        
+         localCanvas = Instantiate(localCanvasPrefab, transform.position, transform.rotation) as GameObject;
+
+         healthObject = Instantiate(healthSliderPrefab, transform.position + hpOffset, transform.rotation) as GameObject;
+         healthObject.transform.SetParent(localCanvas.transform);
+        
     }
 
 
@@ -53,8 +62,23 @@ public class ShootingSprite : MonoBehaviour
    {
        GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation) as GameObject;
        explosion.rigidbody2D.velocity = rigidbody2D.velocity;
-        Destroy(gameObject);   
+
+       DestroySelf();
+   
    }
 
 
+    protected void UpdateCanvas()
+   {
+      localCanvas.transform.position = transform.position;
+   }
+
+
+   protected void DestroySelf()
+    {
+        Destroy(healthObject);
+        Destroy(localCanvas);
+
+        Destroy(gameObject);    
+    }
 }

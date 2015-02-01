@@ -8,15 +8,15 @@
   <Wave>
     <Time>2</Time>
     <Ship>10</Ship>
-    <Ship>50</Ship> 	
+    <Ship>30</Ship> 	
   </Wave>
   <Wave>
-    <Time>6</Time>
+    <Time>16</Time>
     <Ship>10</Ship>
     <Ship>50</Ship>
   </Wave>
   <Wave>
-    <Time>8</Time>
+    <Time>20</Time>
     <Ship>75</Ship>
     <Ship>50</Ship>
   </Wave>

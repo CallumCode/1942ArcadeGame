@@ -119,4 +119,10 @@ public class Player : ShootingSprite
         fireaRate = Mathf.Clamp(fireaRate, minFireRate, maxFireRate);
     }
 
+
+      protected override void Death()
+      {
+          GameProgressHandler.instance.LoseGame();
+          base.Death();
+      }
 }

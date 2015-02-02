@@ -3,17 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 public class ObjectPool : MonoBehaviour
 {
-
-
     public List<GameObject> prefabList;
     List<List<GameObject>> poolList;
 
     public List<int> poolSizeList;
-
-
     public int defaultPoolSize = 10;
-
-
+    
     public static ObjectPool instance { get; private set; }
 
     public GameObject container;
@@ -24,14 +19,12 @@ public class ObjectPool : MonoBehaviour
         instance = this;
     }
 
-
     // Use this for initiaslization
     void Start()
     {
         PoolObjects();
     }
-
-   
+      
 
     void PoolObjects()
     {
@@ -82,7 +75,6 @@ public class ObjectPool : MonoBehaviour
                 pooledObject = GetInactive(i);
                 break;
             }
-            
         }
 
         if (pooledObject != null)
@@ -94,7 +86,6 @@ public class ObjectPool : MonoBehaviour
         {
             Debug.Log(name + " failed pool get");
             Debug.DebugBreak();
-
         }
 
         return pooledObject;
@@ -145,7 +136,7 @@ public class ObjectPool : MonoBehaviour
     {
         if (pooledObject != null && pooledObject.activeInHierarchy == true)
         {
-            pooledObject.transform.SetParent(container.transform);
+    
             pooledObject.SetActive(false);
         }
     }
@@ -153,9 +144,7 @@ public class ObjectPool : MonoBehaviour
     GameObject GetAdditionalObject(GameObject prefab)
     {
         GameObject pooledObject = Instantiate(prefab, transform.position, transform.rotation) as GameObject;
- 
         pooledObject.name = prefab.name + "(pooled)";
-
         return pooledObject;
     }
     

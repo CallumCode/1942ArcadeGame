@@ -13,6 +13,8 @@ public class GameProgressHandler : MonoBehaviour
     int totalWaves = 0;
     int currentWave = 0;
 
+    public GameObject shipSpawner;
+
 
     public static GameProgressHandler instance { get; private set; }
     
@@ -22,6 +24,12 @@ public class GameProgressHandler : MonoBehaviour
     }
 
 
+    public  int enemiesActive = 0;
+    public GameObject winObject;
+    public GameObject loseObject;
+
+
+    bool lost = false;
 
     // Use this for initialization
 	void Start ()
@@ -35,10 +43,19 @@ public class GameProgressHandler : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-	
+        if ((currentWave == totalWaves) && (enemiesActive <= 0) && lost == false)
+        {
+            winObject.SetActive(true);
+        }
+
+        if(lost == true && Input.GetKey(KeyCode.Space) )
+        {
+           Application.LoadLevel(Application.loadedLevelName);
+        }
+
 	}
 
-  public  void AddScore( float change)
+  public void AddScore( float change)
     {
         score += change;
         score = Mathf.Max(0, score);
@@ -53,8 +70,14 @@ public class GameProgressHandler : MonoBehaviour
   public void WaveFinished()
   {
       currentWave++;
+      waveText.text = "Wave " + currentWave + " of " + totalWaves;      
+  }
 
-      waveText.text = "Wave " + currentWave + " of " + totalWaves;
+  public void LoseGame()
+  {
+      loseObject.SetActive(true);
+      lost = true;
+      shipSpawner.SetActive(false);
 
   }
 }

@@ -17,8 +17,9 @@ public class Enemy : ShootingSprite
     public override void Init()
     {
         base.Init();
-        transform.rigidbody2D.velocity = - Vector3.up * startVel;       
-    }
+        transform.rigidbody2D.velocity = - Vector3.up * startVel;
+        GameProgressHandler.instance.enemiesActive++;
+     }
 
     // Update is called once per frame
     void Update()
@@ -73,6 +74,8 @@ public class Enemy : ShootingSprite
 
     void OnBecameInvisible()
     {
+        GameProgressHandler.instance.enemiesActive--;
+
         DestroySelf();
     }
 
@@ -80,7 +83,7 @@ public class Enemy : ShootingSprite
     protected override void Death()
     {
         GameProgressHandler.instance.AddScore(scoreWorth);
-            
+ 
         base.Death();
        
     }

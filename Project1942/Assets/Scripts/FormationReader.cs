@@ -5,6 +5,8 @@ using System.Xml;
 public class FormationReader : MonoBehaviour
 {
     public GameObject shipPrefab;
+    public GameObject healthPrefab;
+    public GameObject fireRatePrefab;
 
     public string fileName = "Formation";
 
@@ -160,7 +162,37 @@ public class FormationReader : MonoBehaviour
         
             wave.objects.Add(objectSpawn);
         }
+
+
+        if (string.Compare(waveNode.Name, "FireRate") == 0)
+        {
+            float pos = float.Parse(waveNode.FirstChild.Value);
+
+            ObjectSpawn objectSpawn = new ObjectSpawn();
+
+            objectSpawn.objectType = fireRatePrefab;
+            objectSpawn.postion = Camera.main.ViewportToWorldPoint(new Vector3(pos / 100.0f, 1.0f, 10.0f));
+
+            wave.objects.Add(objectSpawn);
+        }
+
+
+        if (string.Compare(waveNode.Name, "Health") == 0)
+        {
+            float pos = float.Parse(waveNode.FirstChild.Value);
+
+            ObjectSpawn objectSpawn = new ObjectSpawn();
+
+            objectSpawn.objectType = healthPrefab;
+            objectSpawn.postion = Camera.main.ViewportToWorldPoint(new Vector3(pos / 100.0f, 1.0f, 10.0f));
+
+            wave.objects.Add(objectSpawn);
+        }
+        
     }
+
+   
+
 }
 
 

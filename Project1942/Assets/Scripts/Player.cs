@@ -10,7 +10,8 @@ public class Player : ShootingSprite
 
     public Camera mainCamera;
 
-
+    public float dammageFromHittingEnemy = 30;
+    public float dammageFromEnemyBullet = 10;
 
     float boundarySpeed = 10;
     float rotateFixSpeed = 5;
@@ -96,8 +97,14 @@ public class Player : ShootingSprite
     {
         if (coll.collider.CompareTag("EnemyBullet"))
         {
-            TakeDamage(10);
+            TakeDamage(dammageFromEnemyBullet);
             Destroy(coll.gameObject);
+        }
+
+        if (coll.collider.CompareTag("Enemy"))
+        {
+            TakeDamage(dammageFromHittingEnemy);
+             
         }
     }
 

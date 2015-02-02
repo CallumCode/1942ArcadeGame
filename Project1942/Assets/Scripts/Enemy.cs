@@ -8,6 +8,10 @@ public class Enemy : ShootingSprite
     public float moveForce = 250;
     public float startVel = 5;
     public float rotateFixSpeed = 1;
+
+    public float damageFromHittingPlayer = 100;
+    public float damageFromPlayerBullet = 50;
+
     void Start()
     {
         // first pass implimentation
@@ -34,9 +38,16 @@ public class Enemy : ShootingSprite
     {
         if (coll.collider.CompareTag("PlayerBullet"))
         {
-            TakeDamage(50);
+            TakeDamage(damageFromPlayerBullet);
             Destroy(coll.gameObject); 
         }
+
+
+        if (coll.collider.CompareTag("Player"))
+        {
+            TakeDamage(damageFromHittingPlayer);
+         }
+
     }
 
 

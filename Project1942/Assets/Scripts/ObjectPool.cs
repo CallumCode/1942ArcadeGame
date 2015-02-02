@@ -18,6 +18,7 @@ public class ObjectPool : MonoBehaviour
 
     public GameObject container;
 
+    public bool finishedPooling = false;
     void Awake()
     {
         instance = this;
@@ -30,11 +31,7 @@ public class ObjectPool : MonoBehaviour
         PoolObjects();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+   
 
     void PoolObjects()
     {
@@ -45,6 +42,7 @@ public class ObjectPool : MonoBehaviour
         {
             poolList.Add(GetPoolForPrefab(i));
         }
+        finishedPooling = true;
     }
 
 
@@ -61,6 +59,7 @@ public class ObjectPool : MonoBehaviour
         {
             GameObject pooledObject = Instantiate(prefabList[index], transform.position, transform.rotation) as GameObject;
             pooledObject.name = prefabList[index].name + "(pooled)";
+
             pooledObject.transform.SetParent(container.transform);
             pooledObject.SetActive(false);
             pool.Add(pooledObject);
@@ -80,19 +79,17 @@ public class ObjectPool : MonoBehaviour
 
             if (string.Compare(prefabList[i].name, name) == 0)
             {
-
                 pooledObject = GetInactive(i);
                 break;
             }
-
-
+            
         }
 
         if (pooledObject != null)
         {
             pooledObject.transform.SetParent(null);
             pooledObject.SetActive(true); // prehaps do this after moving of pos
-        }
+         }
         else
         {
             Debug.Log(name + " failed pool get");
@@ -106,22 +103,39 @@ public class ObjectPool : MonoBehaviour
     GameObject GetInactive(int index)
     {
         GameObject inActiveObject = null;
-        List<GameObject> pool = poolList[index];
-
-
-        int objectCount = pool.Count;
-
-        for (int i = 0; i < objectCount; i++)
+        List<GameObject> pool = null;
+        if (poolList != null)
         {
-            if (pool[i].activeInHierarchy == false)
+            pool = poolList[index];
+        } 
+        else
+        {
+            Debug.Log("poolList is null");
+        }
+
+        if (pool != null)
+        {
+            int objectCount = pool.Count;
+
+            for (int i = 0; i < objectCount; i++)
             {
-                return pool[i];
+                if (pool[i].activeInHierarchy == false)
+                {
+                    return pool[i];
+                }
             }
         }
+        else
+        {
+            Debug.Log(" pool null" + prefabList[index].name);
+        }
+
 
         if (inActiveObject == null)
         {
-            Debug.Log("ran out of " + prefabList[index].name);
+            inActiveObject = GetAdditionalObject(prefabList[index]);
+            pool.Add(inActiveObject);
+            Debug.Log("added " + prefabList[index]);  
         }
 
         return inActiveObject;
@@ -135,4 +149,15 @@ public class ObjectPool : MonoBehaviour
             pooledObject.SetActive(false);
         }
     }
+
+    GameObject GetAdditionalObject(GameObject prefab)
+    {
+        GameObject pooledObject = Instantiate(prefab, transform.position, transform.rotation) as GameObject;
+ 
+        pooledObject.name = prefab.name + "(pooled)";
+
+        return pooledObject;
+    }
+    
+
 }

@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\Explosion.cs" />
      <Compile Include="Assets\Scripts\FireRatePickUp.cs" />
      <Compile Include="Assets\Scripts\FormationReader.cs" />
+     <Compile Include="Assets\Scripts\GameProgressHandler.cs" />
      <Compile Include="Assets\Scripts\HealthPickUP.cs" />
      <Compile Include="Assets\Scripts\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\PickUp.cs" />

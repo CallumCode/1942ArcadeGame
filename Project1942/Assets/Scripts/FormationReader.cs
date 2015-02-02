@@ -8,6 +8,10 @@ public class FormationReader : MonoBehaviour
     public GameObject healthPrefab;
     public GameObject fireRatePrefab;
 
+    public GameObject playerPrefab;
+
+
+
     public string fileName = "Formation";
 
     XmlDocument XMLFile;
@@ -17,7 +21,6 @@ public class FormationReader : MonoBehaviour
         public GameObject objectType;
         public Vector3 postion;
     }
-
     struct Wave
     {
         public float time;
@@ -26,6 +29,8 @@ public class FormationReader : MonoBehaviour
 
 
     ArrayList listOflevels;
+
+    bool startWave = true;
     // Use this for initialization
     void Start()
     {
@@ -33,12 +38,25 @@ public class FormationReader : MonoBehaviour
         GetFile();
        listOflevels =  ReadLevels();
 
+
     }
 
+
+    bool playerSpawned = false;
     // Update is called once per frame
     void Update()
     {
-        UpdateSpawning();
+        if (ObjectPool.instance.finishedPooling)
+        {
+            if (playerSpawned == false)
+            {
+                playerSpawned = true;
+                Instantiate(playerPrefab, transform.position, transform.rotation);
+            }
+
+            UpdateSpawning();
+
+        }
     }
 
 
@@ -59,6 +77,12 @@ public class FormationReader : MonoBehaviour
     {
         if (currentLevel != null && currentLevel.Count > 0)
         {
+            if (startWave == true) 
+            {
+                startWave = false;
+                GameProgressHandler.instance.StartLevel(currentLevel.Count);
+            }
+
             Wave wave = (Wave)currentLevel[0];
 
             if (Time.timeSinceLevelLoad > wave.time)
@@ -70,7 +94,7 @@ public class FormationReader : MonoBehaviour
                     SpawnObject((ObjectSpawn)wave.objects[i]);
                 }
 
-
+                GameProgressHandler.instance.WaveFinished();
                 currentLevel.RemoveAt(0);
             }
         }

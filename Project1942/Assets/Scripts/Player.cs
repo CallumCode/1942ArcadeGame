@@ -3,8 +3,7 @@ using System.Collections;
 
 public class Player : ShootingSprite
 {
-
-    public float forceForward = 50;
+     public float forceForward = 50;
     public float forceBackward = 100;
     public float forceSideways = 500;
 
@@ -23,11 +22,13 @@ public class Player : ShootingSprite
     void Start()
     {
         Init();
-    }
+    }    
 
     public override void Init()
     {
         base.Init();
+
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
     
     // Update is called once per frame
@@ -79,7 +80,7 @@ public class Player : ShootingSprite
         if (Input.GetKey(KeyCode.Space) && (Time.time > (fireTimer + 1 / fireaRate)))
         {
             fireTimer = Time.time;
-            GameObject bullet = ObjectPool.instance.GetObject("PlayerBullet");
+            GameObject bullet = ObjectPool.instance.GetObject( bulletPrefab.name);
             if (bullet)
             {
                 bullet.transform.position = transform.position;
@@ -109,8 +110,7 @@ public class Player : ShootingSprite
             TakeDamage(dammageFromHittingEnemy);             
         }
     }
-
-
+    
 
       public void ChangeFireRate(float change)
     {

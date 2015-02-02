@@ -7,6 +7,7 @@ public class HealthPickUP : PickUp
 
     protected override void PickUpeEfect(Player player)
     {
+        base.PickUpeEfect(player);
         player.IncreaseHealth(healthGained);
     }
 }

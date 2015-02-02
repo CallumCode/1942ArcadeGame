@@ -11,14 +11,13 @@ public class Enemy : ShootingSprite
 
     public float damageFromHittingPlayer = 100;
     public float damageFromPlayerBullet = 50;
- 
 
+    public float scoreWorth = 50;
+        
     public override void Init()
     {
         base.Init();
-        transform.rigidbody2D.velocity = - Vector3.up * startVel;
-        
-        
+        transform.rigidbody2D.velocity = - Vector3.up * startVel;       
     }
 
     // Update is called once per frame
@@ -52,11 +51,13 @@ public class Enemy : ShootingSprite
         {
             fireTimer = Time.time;
 
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, transform.rotation) as GameObject;
+            GameObject bullet = ObjectPool.instance.GetObject(bulletPrefab.name);
+            bullet.transform.position = transform.position;
+            bullet.transform.rotation = transform.rotation;
 
             bullet.rigidbody2D.velocity = rigidbody2D.velocity;
 
-            bullet.rigidbody2D.AddForce(- Vector3.up * bulletForce);
+            bullet.rigidbody2D.AddForce(transform.up * bulletForce);
           
             soundShoot.pitch = Random.Range(.9f, 1.1f);
             soundShoot.Play();
@@ -75,4 +76,12 @@ public class Enemy : ShootingSprite
         DestroySelf();
     }
 
+
+    protected override void Death()
+    {
+        GameProgressHandler.instance.AddScore(scoreWorth);
+            
+        base.Death();
+       
+    }
 }

@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PickUp : MonoBehaviour
 {
- 
+
+    public float scoreGained = 100;
 
      void OnTriggerEnter2D(Collider2D other)
     {
@@ -27,6 +28,6 @@ public class PickUp : MonoBehaviour
 
     protected virtual void PickUpeEfect(Player player)
     {
-        Debug.Log("pickup");
+        GameProgressHandler.instance.AddScore(scoreGained);
     }
 }

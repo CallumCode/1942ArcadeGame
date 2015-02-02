@@ -72,7 +72,7 @@ public class ShootingSprite : MonoBehaviour
         }
     }
 
-    void Death()
+    protected virtual void Death()
     {
         GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation) as GameObject;
         explosion.rigidbody2D.velocity = rigidbody2D.velocity;
@@ -83,9 +83,11 @@ public class ShootingSprite : MonoBehaviour
 
     protected void UpdateCanvas()
     {
-        localCanvas.transform.position = transform.position;
+        if (localCanvas)
+        {
+            localCanvas.transform.position = transform.position;
+        }
     }
-
 
     protected void DestroySelf()
     {

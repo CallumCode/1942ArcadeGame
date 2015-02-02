@@ -7,6 +7,8 @@ public class FireRatePickUp : PickUp
 
     protected override void PickUpeEfect(Player player)
     {
+        base.PickUpeEfect(player);
+
         player.ChangeFireRate(fireRateIncrease);
     }
 	 

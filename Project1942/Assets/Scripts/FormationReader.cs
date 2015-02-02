@@ -64,7 +64,7 @@ public class FormationReader : MonoBehaviour
             if (Time.timeSinceLevelLoad > wave.time)
             {
                 int size = wave.objects.Count;
-                Debug.Log("spawn wave objects = " + size);
+              //  Debug.Log("spawn wave objects = " + size);
                 for (int i = 0; i < size; i++)
                 {
                     SpawnObject((ObjectSpawn)wave.objects[i]);
@@ -78,7 +78,12 @@ public class FormationReader : MonoBehaviour
 
     void SpawnObject(ObjectSpawn objectToSpawn)
     {
-        Instantiate(objectToSpawn.objectType, objectToSpawn.postion, objectToSpawn.objectType.transform.rotation);
+        GameObject spawn = ObjectPool.instance.GetObject(objectToSpawn.objectType.name);
+        spawn.transform.position = objectToSpawn.postion;
+        spawn.transform.rotation = objectToSpawn.objectType.transform.rotation;
+        spawn.SetActive(true);
+        spawn.SendMessage("Init" , SendMessageOptions.DontRequireReceiver);
+
     }
 
     /// <summary>
@@ -87,10 +92,10 @@ public class FormationReader : MonoBehaviour
     void GetFile()
     {
         XMLFile = new XmlDocument();
-        string filepath = Application.dataPath + "/Data/" + fileName + ".xml";
-        XMLFile.Load(filepath);
+        TextAsset file  = ( TextAsset)  Resources.Load(fileName, typeof( TextAsset));
+        XMLFile.LoadXml(file.text);
 
-    }
+       }
 
     ArrayList ReadLevels()
     {

@@ -28,10 +28,8 @@ public class Player : ShootingSprite
     public override void Init()
     {
         base.Init();
-
     }
-
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -81,14 +79,19 @@ public class Player : ShootingSprite
         if (Input.GetKey(KeyCode.Space) && (Time.time > (fireTimer + 1 / fireaRate)))
         {
             fireTimer = Time.time;
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, transform.rotation) as GameObject;
+            GameObject bullet = ObjectPool.instance.GetObject("PlayerBullet");
+            if (bullet)
+            {
+                bullet.transform.position = transform.position;
+                bullet.transform.up = Vector3.up;
 
-            bullet.rigidbody2D.velocity = rigidbody2D.velocity;
+                bullet.rigidbody2D.velocity = rigidbody2D.velocity;
 
-            bullet.rigidbody2D.AddForce(Vector3.up * bulletForce);
+                bullet.rigidbody2D.AddForce(Vector3.up * bulletForce);
 
-            soundShoot.pitch = Random.Range(.9f, 1.1f);
-            soundShoot.Play();
+                soundShoot.pitch = Random.Range(.9f, 1.1f);
+                soundShoot.Play();
+            }
         }
     }
 
@@ -98,27 +101,16 @@ public class Player : ShootingSprite
         if (coll.collider.CompareTag("EnemyBullet"))
         {
             TakeDamage(dammageFromEnemyBullet);
-            Destroy(coll.gameObject);
+            ObjectPool.instance.ReturnObject(coll.gameObject);        
         }
 
         if (coll.collider.CompareTag("Enemy"))
         {
-            TakeDamage(dammageFromHittingEnemy);
-             
+            TakeDamage(dammageFromHittingEnemy);             
         }
     }
 
 
-    public void IncreaseHealth(float healthGained)
-    {
-        health += healthGained;
-        health = Mathf.Clamp(health, 0, 100);
-
-        if (healthSlider)
-        {
-            healthSlider.value = health;
-        }    
-    }
 
       public void ChangeFireRate(float change)
     {

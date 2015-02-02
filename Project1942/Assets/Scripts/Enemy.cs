@@ -11,19 +11,14 @@ public class Enemy : ShootingSprite
 
     public float damageFromHittingPlayer = 100;
     public float damageFromPlayerBullet = 50;
-
-    void Start()
-    {
-        // first pass implimentation
  
-        Init();
-    }
 
     public override void Init()
     {
         base.Init();
         transform.rigidbody2D.velocity = - Vector3.up * startVel;
-    
+        
+        
     }
 
     // Update is called once per frame
@@ -39,14 +34,14 @@ public class Enemy : ShootingSprite
         if (coll.collider.CompareTag("PlayerBullet"))
         {
             TakeDamage(damageFromPlayerBullet);
-            Destroy(coll.gameObject); 
+            ObjectPool.instance.ReturnObject(coll.gameObject);
         }
 
 
         if (coll.collider.CompareTag("Player"))
         {
             TakeDamage(damageFromHittingPlayer);
-         }
+        }
 
     }
 

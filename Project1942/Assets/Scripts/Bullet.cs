@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
     public float lifeTime = 25;
     float timer;
 	// Use this for initialization
-	void Start () 
+	void OnEnable() 
     {
         timer = Time.time;
 	}
@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
 
     void Destroy()
     {
-         Destroy(gameObject);
+        ObjectPool.instance.ReturnObject(gameObject);
     }
 
     void OnBecameInvisible()

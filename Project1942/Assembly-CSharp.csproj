@@ -52,11 +52,12 @@
      <Compile Include="Assets\Scripts\FireRatePickUp.cs" />
      <Compile Include="Assets\Scripts\FormationReader.cs" />
      <Compile Include="Assets\Scripts\HealthPickUP.cs" />
+     <Compile Include="Assets\Scripts\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\PickUp.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\ScrollingBackground.cs" />
      <Compile Include="Assets\Scripts\ShootingSprite.cs" />
-     <None Include="Assets\Data\Formation.xml" />
+     <None Include="Assets\Resources\Formation.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>

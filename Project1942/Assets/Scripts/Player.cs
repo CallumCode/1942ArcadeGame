@@ -12,8 +12,8 @@ public class Player : ShootingSprite
     public float dammageFromHittingEnemy = 30;
     public float dammageFromEnemyBullet = 10;
 
-    float boundarySpeed = 10;
-    float rotateFixSpeed = 5;
+    public float boundarySpeed = 15;
+    public float rotateFixSpeed = 5;
 
     float maxFireRate = 10;
     float minFireRate = 1;
@@ -21,6 +21,7 @@ public class Player : ShootingSprite
     AudioSource soundHurt;
     AudioSource soundPickUp;
 
+    public float bulletVelocityScaler = 0.75f;
     // Use this for initialization
     void Start()
     {
@@ -95,7 +96,7 @@ public class Player : ShootingSprite
                 bullet.transform.position = transform.position;
                 bullet.transform.up = Vector3.up;
 
-                bullet.rigidbody2D.velocity = rigidbody2D.velocity;
+                bullet.rigidbody2D.velocity = rigidbody2D.velocity * bulletVelocityScaler;  
 
                 bullet.rigidbody2D.AddForce(Vector3.up * bulletForce);
 
@@ -145,4 +146,6 @@ public class Player : ShootingSprite
      {
          soundPickUp.Play();
      }
+
+
 }

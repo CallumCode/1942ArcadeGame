@@ -15,6 +15,7 @@ public class GameProgressHandler : MonoBehaviour
 
     public GameObject shipSpawner;
 
+    public GameObject replayObject;
 
     public static GameProgressHandler instance { get; private set; }
     
@@ -45,14 +46,18 @@ public class GameProgressHandler : MonoBehaviour
     {
         if ((currentWave == totalWaves) && (enemiesActive <= 0) && lost == false)
         {
-            winObject.SetActive(true);
+            WinGame();
         }
 
-        if(lost == true && Input.GetKey(KeyCode.Space) )
+        if (replayObject.activeInHierarchy == true && Input.GetKey(KeyCode.Return))
         {
            Application.LoadLevel(Application.loadedLevelName);
         }
 
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
 	}
 
   public void AddScore( float change)
@@ -78,6 +83,14 @@ public class GameProgressHandler : MonoBehaviour
       loseObject.SetActive(true);
       lost = true;
       shipSpawner.SetActive(false);
+      replayObject.SetActive(true);
+  }
+
+  public void WinGame()
+  {
+      winObject.SetActive(true); 
+      shipSpawner.SetActive(false);
+      replayObject.SetActive(true);
 
   }
 }

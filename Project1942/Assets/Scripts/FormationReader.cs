@@ -28,21 +28,20 @@ public class FormationReader : MonoBehaviour
     }
 
 
-    ArrayList listOflevels;
+    ArrayList level;
 
+    bool playerSpawned = false;
     bool startWave = true;
     // Use this for initialization
     void Start()
     {
 
         GetFile();
-       listOflevels =  ReadLevels();
+        level = ReadWavesInLevel(XMLFile.FirstChild);
 
 
     }
-
-
-    bool playerSpawned = false;
+    
     // Update is called once per frame
     void Update()
     {
@@ -62,22 +61,18 @@ public class FormationReader : MonoBehaviour
 
     void UpdateSpawning()
     {
-        if (listOflevels != null && listOflevels.Count > 0)
+        if (level != null && level.Count > 0)
         {
-            ArrayList currentLevel = (ArrayList)listOflevels[0];
 
-            UpdateCurrentLevel(currentLevel);
+            UpdateCurrentLevel(level);
         }
-        // else the player has finihsed all levels and has won  
 
     }
-
-
     void UpdateCurrentLevel(ArrayList currentLevel)
     {
         if (currentLevel != null && currentLevel.Count > 0)
         {
-            if (startWave == true) 
+            if (startWave == true)
             {
                 startWave = false;
                 GameProgressHandler.instance.StartLevel(currentLevel.Count);
@@ -88,7 +83,7 @@ public class FormationReader : MonoBehaviour
             if (Time.timeSinceLevelLoad > wave.time)
             {
                 int size = wave.objects.Count;
-              //  Debug.Log("spawn wave objects = " + size);
+                //  Debug.Log("spawn wave objects = " + size);
                 for (int i = 0; i < size; i++)
                 {
                     SpawnObject((ObjectSpawn)wave.objects[i]);
@@ -99,14 +94,13 @@ public class FormationReader : MonoBehaviour
             }
         }
     }
-
     void SpawnObject(ObjectSpawn objectToSpawn)
     {
         GameObject spawn = ObjectPool.instance.GetObject(objectToSpawn.objectType.name);
         spawn.transform.position = objectToSpawn.postion;
         spawn.transform.rotation = objectToSpawn.objectType.transform.rotation;
         spawn.SetActive(true);
-        spawn.SendMessage("Init" , SendMessageOptions.DontRequireReceiver);
+        spawn.SendMessage("Init", SendMessageOptions.DontRequireReceiver);
 
     }
 
@@ -116,28 +110,10 @@ public class FormationReader : MonoBehaviour
     void GetFile()
     {
         XMLFile = new XmlDocument();
-        TextAsset file  = ( TextAsset)  Resources.Load(fileName, typeof( TextAsset));
+        TextAsset file = (TextAsset)Resources.Load(fileName, typeof(TextAsset));
         XMLFile.LoadXml(file.text);
 
-       }
-
-    ArrayList ReadLevels()
-    {
-        ArrayList level = new ArrayList();
-
-        if (XMLFile != null)
-        {
-            XmlNodeList levelsList = XMLFile.GetElementsByTagName("Level"); // array of the level nodes.
-
-            foreach (XmlNode levelInfo in levelsList)
-            {
-                level.Add(ReadWavesInLevel(levelInfo));
-            }
-        }
-
-        return level;
     }
-
     ArrayList ReadWavesInLevel(XmlNode levelInfo)
     {
         ArrayList level = new ArrayList();
@@ -151,8 +127,6 @@ public class FormationReader : MonoBehaviour
 
         return level;
     }
-
-
     Wave ReadWave(XmlNode levelsNodes)
     {
         XmlNodeList waveList = levelsNodes.ChildNodes;
@@ -170,25 +144,23 @@ public class FormationReader : MonoBehaviour
 
         return wave;
     }
-
-
     void ReadWaveNode(XmlNode waveNode, ref Wave wave)
     {
         if (string.Compare(waveNode.Name, "Time") == 0)
         {
 
             wave.time = float.Parse(waveNode.FirstChild.Value);
-         }
+        }
 
         if (string.Compare(waveNode.Name, "Ship") == 0)
         {
             float pos = float.Parse(waveNode.FirstChild.Value);
 
-             ObjectSpawn objectSpawn = new ObjectSpawn();
+            ObjectSpawn objectSpawn = new ObjectSpawn();
 
             objectSpawn.objectType = shipPrefab;
-            objectSpawn.postion = Camera.main.ViewportToWorldPoint(new Vector3(pos/100.0f, 1.0f, 10.0f));
-        
+            objectSpawn.postion = Camera.main.ViewportToWorldPoint(new Vector3(pos / 100.0f, 1.0f, 10.0f));
+
             wave.objects.Add(objectSpawn);
         }
 
@@ -217,9 +189,9 @@ public class FormationReader : MonoBehaviour
 
             wave.objects.Add(objectSpawn);
         }
-        
+
     }
-      
+
 
 }
 

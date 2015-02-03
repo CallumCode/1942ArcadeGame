@@ -18,6 +18,9 @@ public class Player : ShootingSprite
     float maxFireRate = 10;
     float minFireRate = 1;
 
+    AudioSource soundHurt;
+    AudioSource soundPickUp;
+
     // Use this for initialization
     void Start()
     {
@@ -27,6 +30,12 @@ public class Player : ShootingSprite
     public override void Init()
     {
         base.Init();
+
+        AudioSource[] sounds = GetComponents<AudioSource>();
+
+        soundShoot = sounds[0];
+        soundHurt = sounds[1];
+        soundPickUp = sounds[2];
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
@@ -119,10 +128,21 @@ public class Player : ShootingSprite
         fireaRate = Mathf.Clamp(fireaRate, minFireRate, maxFireRate);
     }
 
-
-      protected override void Death()
+     protected override void Death()
       {
           GameProgressHandler.instance.LoseGame();
           base.Death();
       }
+
+     public override void TakeDamage(float amount)
+     {
+         soundHurt.Play();
+         base.TakeDamage(amount);
+
+     }
+
+    public void PlayPickUp()
+     {
+         soundPickUp.Play();
+     }
 }

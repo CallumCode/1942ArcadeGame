@@ -56,7 +56,7 @@ public class ShootingSprite : MonoBehaviour
 
     }
 
-    public void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount)
     {
         health -= amount;
         health = Mathf.Clamp(health, 0, 100);
@@ -74,10 +74,12 @@ public class ShootingSprite : MonoBehaviour
 
     protected virtual void Death()
     {
-        GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation) as GameObject;
+        GameObject explosion = ObjectPool.instance.GetObject(explosionPrefab.name);
+        explosion.transform.position = transform.position;
+        explosion.transform.rotation = transform.rotation;  
         explosion.rigidbody2D.velocity = rigidbody2D.velocity;
 
-        DestroySelf();
+        ReturnSelf();
     }
 
 
@@ -89,7 +91,7 @@ public class ShootingSprite : MonoBehaviour
         }
     }
 
-    protected void DestroySelf()
+    protected void ReturnSelf()
     {
      
         ObjectPool.instance.ReturnObject(healthObject);

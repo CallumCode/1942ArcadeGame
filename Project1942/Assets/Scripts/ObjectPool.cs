@@ -51,7 +51,7 @@ public class ObjectPool : MonoBehaviour
         for (int i = 0; i < numToPool; i++)
         {
             GameObject pooledObject = Instantiate(prefabList[index], transform.position, transform.rotation) as GameObject;
-            pooledObject.name = prefabList[index].name + "(pooled)";
+            pooledObject.name = prefabList[index].name;
 
             pooledObject.transform.SetParent(container.transform);
             pooledObject.SetActive(false);
@@ -134,9 +134,10 @@ public class ObjectPool : MonoBehaviour
 
     public void ReturnObject(GameObject pooledObject)
     {
-        if (pooledObject != null && pooledObject.activeInHierarchy == true)
-        {
-    
+        if (pooledObject != null && pooledObject.activeInHierarchy == true && container != null)
+        {    
+
+            pooledObject.transform.SetParent(container.transform);
             pooledObject.SetActive(false);
         }
     }
@@ -144,7 +145,7 @@ public class ObjectPool : MonoBehaviour
     GameObject GetAdditionalObject(GameObject prefab)
     {
         GameObject pooledObject = Instantiate(prefab, transform.position, transform.rotation) as GameObject;
-        pooledObject.name = prefab.name + "(pooled)";
+        pooledObject.name = prefab.name ;
         return pooledObject;
     }
     

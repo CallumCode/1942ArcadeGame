@@ -16,18 +16,25 @@ public class PickUp : MonoBehaviour
          if(other.CompareTag("Player"))
          {
              PickUpeEfect( other.gameObject.GetComponent<Player>() ) ;
-             // will have animation or sound here
-             DestroySelf();
+             ReturnSelf();
          }
     }
 
-    protected void DestroySelf()
+    protected void ReturnSelf()
     {
-        Destroy(gameObject);
+        ObjectPool.instance.ReturnObject(gameObject);
     }
 
     protected virtual void PickUpeEfect(Player player)
     {
         GameProgressHandler.instance.AddScore(scoreGained);
+        player.PlayPickUp();
+
     }
+
+    void OnBecameInvisible()
+    {
+        ReturnSelf();
+    }
+
 }

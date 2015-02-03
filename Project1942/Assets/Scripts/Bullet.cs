@@ -16,25 +16,25 @@ public class Bullet : MonoBehaviour
     {
         if (Time.time > (timer + lifeTime))
         {
-            Destroy();
+            ReturnSelf();
         }
     }
 
-    void Destroy()
+    void ReturnSelf()
     {
         ObjectPool.instance.ReturnObject(gameObject);
     }
 
     void OnBecameInvisible()
     {
-        Destroy();
+        ReturnSelf();
     }
 
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.collider.CompareTag("PlayerBullet") || coll.collider.CompareTag("EnemyBullet") )
         {
-            Destroy();
+            ReturnSelf();
         }
     }
 }

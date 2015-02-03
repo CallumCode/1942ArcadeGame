@@ -76,7 +76,7 @@ public class Enemy : ShootingSprite
     {
         GameProgressHandler.instance.enemiesActive--;
 
-        DestroySelf();
+        ReturnSelf();
     }
 
 

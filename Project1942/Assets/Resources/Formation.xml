@@ -16,9 +16,17 @@
     <Ship>50</Ship>
   </Wave>
   <Wave>
+    <Time>14</Time>
+    <FireRate>10</FireRate	>
+    <Ship>50</Ship>
+    <Ship>50</Ship>
+    <Ship>75</Ship>
+    <Ship>54</Ship>
+  </Wave>
+  <Wave>
     <Time>16</Time>
     <Ship>75</Ship>
-    <Ship>50</Ship>
+    <Ship>1</Ship>
 	<Health>90</Health>
   </Wave>
 </Level>

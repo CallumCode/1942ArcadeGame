@@ -51,22 +51,22 @@ public class Player : ShootingSprite
 
     void Movement()
     {
-        if (Input.GetKey(KeyCode.A))
+        if( Input.GetAxis("Horizontal") < 0 )
         {
             rigidbody2D.AddForce(-Vector3.right * forceSideways * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetAxis("Horizontal") > 0)
         {
             rigidbody2D.AddForce(Vector3.right * forceSideways * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetAxis("Vertical") > 0)
         {
             rigidbody2D.AddForce(Vector3.up * forceForward * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetAxis("Vertical") < 0)
         {
             rigidbody2D.AddForce(-Vector3.up * forceBackward * Time.deltaTime);
         }
@@ -87,7 +87,7 @@ public class Player : ShootingSprite
 
     void Shooting()
     {
-        if (Input.GetKey(KeyCode.Space) && (Time.time > (fireTimer + 1 / fireaRate)))
+        if (Input.GetButton("Fire1")  && (Time.time > (fireTimer + 1 / fireaRate)))
         {
             fireTimer = Time.time;
             GameObject bullet = ObjectPool.instance.GetObject( bulletPrefab.name);
